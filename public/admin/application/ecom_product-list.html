@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Lista de Fundas | IFundas San Juan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/fonts/feather.css">
+  <link rel="stylesheet" href="../assets/fonts/fontawesome.css">
+  <link rel="stylesheet" href="../assets/fonts/material.css">
+  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../assets/css/style-preset.css">
+</head>
+
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <a href="#" class="b-brand text-primary">
+          <h4 class="m-0 text-primary fw-bold">IFundas San Juan</h4>
+        </a>
+      </div>
+      <div class="navbar-content">
+        <ul class="pc-navbar">
+          <li class="pc-item pc-caption">
+            <label>Administración</label>
+          </li>
+          <li class="pc-item active">
+            <a href="ecom_product-list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
+              <span class="pc-mtext">Fundas / Productos</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="user-list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-users"></i></span>
+              <span class="pc-mtext">Usuarios del Sistema</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="cust_customer_list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-user-check"></i></span>
+              <span class="pc-mtext">Clientes</span>
+            </a>
+          </li>
+          <li class="pc-item pc-caption">
+            <label>Sesión</label>
+          </li>
+          <li class="pc-item">
+            <a href="#" onclick="cerrarSesion()" class="pc-link text-danger">
+              <span class="pc-micon"><i class="ti ti-power"></i></span>
+              <span class="pc-mtext">Cerrar Sesión</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- [ Sidebar Menu ] end -->
+
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header">
+    <div class="header-wrapper">
+      <div class="me-auto pc-mob-drp">
+        <ul class="list-unstyled">
+          <li class="pc-h-item pc-sidebar-collapse">
+            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="ms-auto">
+        <ul class="list-unstyled">
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button">
+              <i class="ti ti-user fs-4 me-1"></i>
+              <span id="user-display-name">Admin</span>
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+              <a href="#" onclick="cerrarSesion()" class="dropdown-item">
+                <i class="ti ti-power text-danger"></i>
+                <span>Cerrar Sesión</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card table-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center p-4 pb-0">
+                <h5 class="mb-0">Gestión de Fundas para iPhone</h5>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-agregar-producto" onclick="cargarAuxiliares()">
+                  <i class="ti ti-plus f-18 me-1"></i> Agregar Funda
+                </button>
+              </div>
+              <div class="table-responsive p-4">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Funda</th>
+                      <th>Modelo de iPhone</th>
+                      <th>Categoría</th>
+                      <th class="text-end">Precio</th>
+                      <th class="text-end">Stock</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabla-productos">
+                    <tr>
+                      <td colspan="6" class="text-center py-4">Cargando productos desde la base de datos...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [ Modal Agregar Producto ] start -->
+  <div class="modal fade" id="modal-agregar-producto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nueva Funda</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form-crear-producto">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre de la Funda</label>
+              <input type="text" class="form-control" id="prod-nombre" placeholder="Ej: Funda MagSafe Transparente" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="prod-descripcion" rows="2" placeholder="Detalles de materiales, protección..."></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Modelo de iPhone</label>
+                <select class="form-select" id="prod-modelo" required>
+                  <option value="">Cargando modelos...</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Categoría</label>
+                <select class="form-select" id="prod-categoria" required>
+                  <option value="">Cargando categorías...</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Precio ($ ARS)</label>
+                <input type="number" step="0.01" class="form-control" id="prod-precio" placeholder="15000" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Stock inicial</label>
+                <input type="number" class="form-control" id="prod-stock" placeholder="10" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL de Imagen</label>
+              <input type="url" class="form-control" id="prod-imagen" placeholder="https://ejemplo.com/funda.jpg">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Funda</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- [ Modal Agregar Producto ] end -->
+
+  <!-- Required Js -->
+  <script src="../assets/js/plugins/popper.min.js"></script>
+  <script src="../assets/js/plugins/simplebar.min.js"></script>
+  <script src="../assets/js/plugins/bootstrap.min.js"></script>
+  <script src="../assets/js/fonts/custom-font.js"></script>
+  <script src="../assets/js/pcoded.js"></script>
+  <script src="../assets/js/plugins/feather.min.js"></script>
+
+  <script>layout_change('light');</script>
+  <script>preset_change("preset-1");</script>
+  <script>font_change("Public-Sans");</script>
+
+  <!-- Lógica Dinámica de la Base de Datos -->
+  <script>
+    // 1. Control de acceso
+    const token = localStorage.getItem('token');
+    const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    if (!token) {
+      window.location.href = '/admin/login.html';
+    } else {
+      if (usuarioGuardado.nombre) {
+        document.getElementById('user-display-name').textContent = usuarioGuardado.nombre;
+      }
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.href = '/admin/login.html';
+    }
+
+    // 2. Traer productos desde MySQL
+    async function cargarProductos() {
+      try {
+        const res = await fetch('/api/productos');
+        const productos = await res.json();
+        const tbody = document.getElementById('tabla-productos');
+        tbody.innerHTML = '';
+
+        if (!productos || productos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No hay fundas registradas en la base de datos</td></tr>';
+          return;
+        }
+
+        productos.forEach(p => {
+          const imgUrl = p.imagen_url || 'https://via.placeholder.com/150';
+          tbody.innerHTML += `
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img src="${imgUrl}" alt="${p.nombre}" class="rounded me-3 border" style="width: 48px; height: 48px; object-fit: cover;">
+                  <div>
+                    <h6 class="mb-0 fw-semibold">${p.nombre}</h6>
+                    <small class="text-muted">${p.descripcion || ''}</small>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge bg-light-primary text-primary f-12">${p.modelo}</span></td>
+              <td>${p.categoria}</td>
+              <td class="text-end fw-bold">$${Number(p.precio).toLocaleString('es-AR')}</td>
+              <td class="text-end">
+                <span class="badge ${p.stock > 0 ? 'bg-light-success text-success' : 'bg-light-danger text-danger'} f-12">
+                  ${p.stock} unid.
+                </span>
+              </td>
+              <td class="text-center">
+                <button onclick="eliminarProducto(${p.id})" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                  <i class="ti ti-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (err) {
+        console.error('Error al cargar productos:', err);
+        document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Error al conectar con la API de productos</td></tr>';
+      }
+    }
+
+    // 3. Cargar modelos y categorías para el modal
+    async function cargarAuxiliares() {
+      try {
+        const res = await fetch('/api/productos/auxiliares');
+        const { modelos, categorias } = await res.json();
+
+        const selectModelo = document.getElementById('prod-modelo');
+        const selectCategoria = document.getElementById('prod-categoria');
+
+        selectModelo.innerHTML = '<option value="">Seleccione un modelo...</option>';
+        modelos.forEach(m => {
+          selectModelo.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+        });
+
+        selectCategoria.innerHTML = '<option value="">Seleccione una categoría...</option>';
+        categorias.forEach(c => {
+          selectCategoria.innerHTML += `<option value="${c.id}">${c.nombre}</option>`;
+        });
+      } catch (err) {
+        console.error('Error al cargar auxiliares:', err);
+      }
+    }
+
+    // 4. Formulario de creación
+    document.getElementById('form-crear-producto').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nuevoProducto = {
+        nombre: document.getElementById('prod-nombre').value,
+        descripcion: document.getElementById('prod-descripcion').value,
+        id_modelo: document.getElementById('prod-modelo').value,
+        id_categoria: document.getElementById('prod-categoria').value,
+        precio: parseFloat(document.getElementById('prod-precio').value),
+        stock: parseInt(document.getElementById('prod-stock').value),
+        imagen_url: document.getElementById('prod-imagen').value
+      };
+
+      try {
+        const res = await fetch('/api/productos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevoProducto)
+        });
+
+        if (res.ok) {
+          // Cerrar modal y resetear form
+          const modalEl = document.getElementById('modal-agregar-producto');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          modal.hide();
+          document.getElementById('form-crear-producto').reset();
+          cargarProductos();
+        } else {
+          alert('Hubo un error al guardar el producto');
+        }
+      } catch (err) {
+        alert('Error de conexión');
+      }
+    });
+
+    // 5. Eliminar producto
+    async function eliminarProducto(id) {
+      if (!confirm('¿Desea eliminar esta funda de la base de datos?')) return;
+      try {
+        const res = await fetch(`/api/productos/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          cargarProductos();
+        } else {
+          alert('No se pudo eliminar el producto');
+        }
+      } catch (err) {
+        alert('Error al conectar con el servidor');
+      }
+    }
+
+    // Carga inicial
+    cargarProductos();
+  </script>
+</body>
+</html>

@@ -5,32 +5,30 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import pool from './db.js';
 
+import authRoutes from './routes/auth.routes.js';
+import productosRoutes from './routes/productos.routes.js';
+import usuariosRoutes from './routes/usuarios.routes.js';
+import clientesRoutes from './routes/clientes.routes.js'; // <-- 1. IMPORTAR
+
 dotenv.config();
 
-// En ES Modules __dirname se define así:
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir estáticos: Plantilla Admin y Web pública
 app.use('/admin', express.static(path.join(__dirname, 'public/admin')));
 app.use('/', express.static(path.join(__dirname, 'public/web')));
 
-// Ruta de prueba rápida
-app.get('/api/ping', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT 1 + 1 AS resultado');
-    res.json({ mensaje: 'Conexión a MySQL exitosa', resultado: rows[0].resultado });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// Rutas de API
+app.use('/api/auth', authRoutes);
+app.use('/api/productos', productosRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/clientes', clientesRoutes); // <-- 2. REGISTRAR
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {

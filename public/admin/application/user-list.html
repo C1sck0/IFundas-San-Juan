@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Usuarios del Sistema | IFundas San Juan</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/fonts/feather.css">
+  <link rel="stylesheet" href="../assets/fonts/fontawesome.css">
+  <link rel="stylesheet" href="../assets/fonts/material.css">
+  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../assets/css/style-preset.css">
+</head>
+
+<body>
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <a href="#" class="b-brand text-primary">
+          <h4 class="m-0 text-primary fw-bold">IFundas San Juan</h4>
+        </a>
+      </div>
+      <div class="navbar-content">
+        <ul class="pc-navbar">
+          <li class="pc-item pc-caption">
+            <label>Administración</label>
+          </li>
+          <li class="pc-item">
+            <a href="ecom_product-list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-shopping-cart"></i></span>
+              <span class="pc-mtext">Fundas / Productos</span>
+            </a>
+          </li>
+          <li class="pc-item active">
+            <a href="user-list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-users"></i></span>
+              <span class="pc-mtext">Usuarios del Sistema</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="cust_customer_list.html" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-user-check"></i></span>
+              <span class="pc-mtext">Clientes</span>
+            </a>
+          </li>
+          <li class="pc-item pc-caption">
+            <label>Sesión</label>
+          </li>
+          <li class="pc-item">
+            <a href="#" onclick="cerrarSesion()" class="pc-link text-danger">
+              <span class="pc-micon"><i class="ti ti-power"></i></span>
+              <span class="pc-mtext">Cerrar Sesión</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- [ Sidebar Menu ] end -->
+
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header">
+    <div class="header-wrapper">
+      <div class="me-auto pc-mob-drp">
+        <ul class="list-unstyled">
+          <li class="pc-h-item pc-sidebar-collapse">
+            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="ms-auto">
+        <ul class="list-unstyled">
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button">
+              <i class="ti ti-user fs-4 me-1"></i>
+              <span id="user-display-name">Admin</span>
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+              <a href="#" onclick="cerrarSesion()" class="dropdown-item">
+                <i class="ti ti-power text-danger"></i>
+                <span>Cerrar Sesión</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card table-card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center p-4 pb-0">
+                <h5 class="mb-0">Usuarios y Roles del Sistema</h5>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-agregar-usuario" onclick="cargarRoles()">
+                  <i class="ti ti-plus f-18 me-1"></i> Agregar Usuario
+                </button>
+              </div>
+              <div class="table-responsive p-4">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>#ID</th>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Rol Asignado</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabla-usuarios">
+                    <tr>
+                      <td colspan="5" class="text-center py-4">Cargando usuarios...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [ Modal Agregar Usuario ] start -->
+  <div class="modal fade" id="modal-agregar-usuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Usuario del Sistema</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="form-crear-usuario">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nombre Completo</label>
+              <input type="text" class="form-control" id="usr-nombre" placeholder="Ej: Gonzalo Morales" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email de acceso</label>
+              <input type="email" class="form-control" id="usr-email" placeholder="usuario@fundas.com" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="usr-password" placeholder="Mínimo 6 caracteres" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tipo de Usuario (Rol)</label>
+              <select class="form-select" id="usr-rol" required>
+                <option value="">Cargando roles...</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- [ Modal Agregar Usuario ] end -->
+
+  <!-- Required Js -->
+  <script src="../assets/js/plugins/popper.min.js"></script>
+  <script src="../assets/js/plugins/simplebar.min.js"></script>
+  <script src="../assets/js/plugins/bootstrap.min.js"></script>
+  <script src="../assets/js/fonts/custom-font.js"></script>
+  <script src="../assets/js/pcoded.js"></script>
+  <script src="../assets/js/plugins/feather.min.js"></script>
+
+  <script>layout_change('light');</script>
+  <script>preset_change("preset-1");</script>
+  <script>font_change("Public-Sans");</script>
+
+  <!-- Lógica Dinámica de Usuarios -->
+  <script>
+    // 1. Control de sesión
+    const token = localStorage.getItem('token');
+    const usuarioGuardado = JSON.parse(localStorage.getItem('usuario') || '{}');
+
+    if (!token) {
+      window.location.href = '/admin/login.html';
+    } else {
+      if (usuarioGuardado.nombre) {
+        document.getElementById('user-display-name').textContent = usuarioGuardado.nombre;
+      }
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.href = '/admin/login.html';
+    }
+
+    // 2. Traer usuarios desde la base de datos
+    async function cargarUsuarios() {
+      try {
+        const res = await fetch('/api/usuarios');
+        const usuarios = await res.json();
+        const tbody = document.getElementById('tabla-usuarios');
+        tbody.innerHTML = '';
+
+        if (!usuarios || usuarios.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No hay usuarios registrados</td></tr>';
+          return;
+        }
+
+        usuarios.forEach(u => {
+          tbody.innerHTML += `
+            <tr>
+              <td class="text-muted fw-bold">#${u.id}</td>
+              <td><strong>${u.nombre}</strong></td>
+              <td>${u.email}</td>
+              <td>
+                <span class="badge ${u.rol === 'Administrador' ? 'bg-light-primary text-primary' : 'bg-light-secondary text-secondary'} f-12">
+                  ${u.rol}
+                </span>
+              </td>
+              <td class="text-center">
+                <button onclick="eliminarUsuario(${u.id})" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                  <i class="ti ti-trash"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (err) {
+        console.error('Error al cargar usuarios:', err);
+      }
+    }
+
+    // 3. Cargar roles en el select del modal
+    async function cargarRoles() {
+      try {
+        const res = await fetch('/api/usuarios/roles');
+        const roles = await res.json();
+        const selectRol = document.getElementById('usr-rol');
+        selectRol.innerHTML = '<option value="">Seleccione un rol...</option>';
+        roles.forEach(r => {
+          selectRol.innerHTML += `<option value="${r.id}">${r.nombre}</option>`;
+        });
+      } catch (err) {
+        console.error('Error al cargar roles:', err);
+      }
+    }
+
+    // 4. Formulario de creación
+    document.getElementById('form-crear-usuario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nuevoUsuario = {
+        nombre: document.getElementById('usr-nombre').value,
+        email: document.getElementById('usr-email').value,
+        password: document.getElementById('usr-password').value,
+        id_rol: document.getElementById('usr-rol').value
+      };
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevoUsuario)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          const modalEl = document.getElementById('modal-agregar-usuario');
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          modal.hide();
+          document.getElementById('form-crear-usuario').reset();
+          cargarUsuarios();
+        } else {
+          alert(data.mensaje || 'Error al crear usuario');
+        }
+      } catch (err) {
+        alert('Error de conexión');
+      }
+    });
+
+    // 5. Eliminar usuario
+    async function eliminarUsuario(id) {
+      if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+      try {
+        const res = await fetch(`/api/usuarios/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          cargarUsuarios();
+        } else {
+          alert('No se pudo eliminar el usuario');
+        }
+      } catch (err) {
+        alert('Error al conectar con el servidor');
+      }
+    }
+
+    cargarUsuarios();
+  </script>
+</body>
+</html>
